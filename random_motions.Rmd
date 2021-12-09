@@ -55,6 +55,25 @@ y <- c(0, cumsum(ystep))    # y-axis position after i-th step
 
 Here, the step size is chosen from a probability distribution. The probability distribution that we will be using here is P(l) = 1/L * e^(-l/L) where l can take any value between 0 and infinity and L is average step size. The integral of P(l) from 0 to infinity is 1 since a probability distribution should be normalized to 1. The average step size is the integral of l*P(l) from 0 to infinity and indeed equals L. This negative exponential probability distribution is light-tailed.
 
+## Levy Flight with Power-Law Step Size Distribution
+
+```{r}
+theta <- runif(n-1)*2*pi
+alpha <- 3  # try a number between greater than 1 and no more than 3
+lmin <- 1
+lmax <- 5000
+step_size <- runif(n-1, lmax^(-alpha), lmin^(-alpha))^(-1/alpha)
+
+xstep <- step_size*cos(theta)
+ystep <- step_size*sin(theta)
+
+x <- c(0, cumsum(xstep))
+y <- c(0, cumsum(ystep))
+
+```
+
+
+Here, the step size is chosen from a probability distribution.The power-law probability distribution that we will be using here is P(l) = A * l^(- alpha) where the step size l lies between lmin and lmax. The factor A assures that the integral of P(l) for l between lmin and lmax equals 1 since a probability distribution should be normalized to 1. Its exact expression/value is not important for the following. Alpha is the exponent of the power law. This power-law distribution is fat-tailed. 
 
 ## Descriptive
 ```{r}
@@ -64,21 +83,3 @@ mean(step_size)
 ggplot(data.frame(x=x, y=y), aes(x, y))+geom_point()+geom_path()
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
