@@ -1,0 +1,84 @@
+---
+title: "random_motions"
+author: "Dragan Kantar"
+date: "12/9/2021"
+output: pdf_document
+---
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+rm(x_step, y_step, x, y)
+
+
+# add starting point parameter
+# parametrize new step distribution
+
+```
+
+
+
+```{r}
+n <- 1000    # Number of steps
+l <- 1       # Step size distribution parameter
+
+```
+
+## Browninan Walk with Fixed Step Size
+
+```{r}
+step_size <- l              # Step size
+theta <- runif(n-1)*2*pi    # Angle of direction
+
+x_step <- step_size*cos(theta)    # Distance traveled along x-axis for i-th step
+y_step <- step_size*sin(theta)    # Distance traveled along y-axis for i-th step
+
+x <- c(0, cumsum(x_step))    # x-axis position after i-th step
+y <- c(0, cumsum(y_step))    # y-axis position after i-th step
+
+```
+
+
+## Brownian Walk with Negative Exponential Step Size Distribution
+
+```{r}
+step_size <- -l*log(runif(n-1)*l)    # Step size
+theta <- runif(n-1)*2*pi             # Angle of direction
+
+x_step <- step_size*cos(theta)    # Distance traveled along x-axis for i-th step
+y_step <- step_size*sin(theta)    # Distance traveled along y-axis for i-th step
+
+x <- c(0, cumsum(xstep))    # x-axis position after i-th step
+y <- c(0, cumsum(ystep))    # y-axis position after i-th step
+
+```
+
+Here, the step size is chosen from a probability distribution. The probability distribution that we will be using here is P(l) = 1/L * e^(-l/L) where l can take any value between 0 and infinity and L is average step size. The integral of P(l) from 0 to infinity is 1 since a probability distribution should be normalized to 1. The average step size is the integral of l*P(l) from 0 to infinity and indeed equals L. This negative exponential probability distribution is light-tailed.
+
+
+## Descriptive
+```{r}
+hist(step_size, breaks=200)
+mean(step_size)
+
+ggplot(data.frame(x=x, y=y), aes(x, y))+geom_point()+geom_path()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
